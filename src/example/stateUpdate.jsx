@@ -4,7 +4,8 @@ export default class StateUpdate extends React.Component {
     state = {
         person: {
             info: {
-                name: 'hello'
+                name: 'hello',
+                desc: 'we are defferent'
             }
         }
     };
@@ -31,6 +32,7 @@ export default class StateUpdate extends React.Component {
                 <button onClick={this.updateName1}>no replace person object</button>
                 <button onClick={this.updateName2}>replace person object</button>
                 <div>{this.state.person.info.name}</div>
+                <div>{this.state.person.info.desc}</div>
             </div>
         );
     }
