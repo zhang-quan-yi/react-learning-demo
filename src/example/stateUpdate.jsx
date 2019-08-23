@@ -10,12 +10,12 @@ export default class StateUpdate extends React.Component {
         }
     };
     updateName1 = () => {
-        this.state.person.info.name = 'world' + Math.random();
+        // this.state.person.info.name = 'world' + Math.random();
         this.setState({});
     };
 
     updateName2 = () => {
-        let {person} = this.state;
+        let { person } = this.state;
 
         person.info.name = 'world' + Math.random();
         this.setState({
@@ -26,6 +26,7 @@ export default class StateUpdate extends React.Component {
     };
 
     render() {
+        console.log('render');
         return (
             <div>
                 <h3>Component State Update</h3>
@@ -33,6 +34,9 @@ export default class StateUpdate extends React.Component {
                 <button onClick={this.updateName2}>replace person object</button>
                 <div>{this.state.person.info.name}</div>
                 <div>{this.state.person.info.desc}</div>
+                {
+                    this.props.children
+                }
             </div>
         );
     }

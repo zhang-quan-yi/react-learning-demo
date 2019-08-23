@@ -3,4 +3,4 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import TodoApp from './redux/todoApp/index'
-ReactDOM.render(<TodoApp />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));

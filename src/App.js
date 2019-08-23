@@ -1,6 +1,8 @@
 import React from 'react';
 import StateUpdate from './example/stateUpdate';
 import StateUpdatePure from './example/stateUpdatePure';
+import AutoComplete from './example/autoComplete';
+import ShouldUpdate from './example/shouldUpdate';
 // import MyEditor from './draft/index';
 import MyEditor from './draft-plugin/index';
 
@@ -18,6 +20,8 @@ function App() {
             {/* <StateUpdate /> */}
             {/* <StateUpdatePure /> */}
             {/* <MyEditor /> */}
+            {/* {AutoComplete()} */}
+            <ShouldUpdate />
         </div>
     );
 }
