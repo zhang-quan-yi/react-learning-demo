@@ -2,19 +2,32 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Todo from './Todo'
 
-const TodoList = ({ todos, onTodoClick }) => (
-    <ul>
-        {
-            todos.map((todo, index) => (
-                <Todo
-                    key={index}
-                    {...todo}
-                    onClick={() => onTodoClick(index)}
-                />
-            ))
-        }
-    </ul>
-);
+class TodoList extends React.Component {
+    componentDidMount() {
+        console.log('[TodoList] componentDidMount');
+    }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log('[TodoList] componentDidUpdate');
+    }
+    noop() { }
+    render() {
+        console.log('[TodoList] render');
+        const { todos, onTodoClick } = this.props;
+        return (
+            <ul>
+                {
+                    todos.map((todo, index) => (
+                        <Todo
+                            key={todo.id}
+                            {...todo}
+                            onClick={this.noop}
+                        />
+                    ))
+                }
+            </ul>
+        );
+    }
+};
 
 TodoList.propTypes = {
     todos: PropTypes.arrayOf(

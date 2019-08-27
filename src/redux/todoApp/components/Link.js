@@ -1,21 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Link = ({ active, children, onClick }) => {
-    if (active) {
-        return <span>{children}</span>
+class Link extends React.Component {
+    componentDidMount() {
+        console.log('[Link] componentDidMount');
     }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log('[Link] componentDidUpdate');
+    }
+    render() {
+        console.log('[Link] render');
+        const { active, children, onClick } = this.props;
+        if (active) {
+            return <span>{children}</span>
+        }
 
-    return (
-        <a
-            href=""
-            onClick={e => {
-                e.preventDefault()
-                onClick()
-            }}>
-            {children}
-        </a>
-    )
+        return (
+            <a
+                href=""
+                onClick={e => {
+                    e.preventDefault()
+                    onClick()
+                }}>
+                {children}
+            </a>
+        );
+    }
 }
 
 Link.propTypes = {
