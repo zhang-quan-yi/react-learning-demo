@@ -48,11 +48,11 @@ export default class ShouldUpdate extends React.Component {
         person.info.name = 'world' + Math.random();
         person.content1 += ' change';
         person.content2 += ' change';
-        this.setState({
-            person: {
-                ...person
-            }
-        });
+        // this.setState({
+        //     person: {
+        //         ...person
+        //     }
+        // });
     };
 
     render() {

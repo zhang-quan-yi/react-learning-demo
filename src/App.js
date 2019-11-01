@@ -5,6 +5,7 @@ import AutoComplete from './example/autoComplete';
 import ShouldUpdate from './example/shouldUpdate';
 // import MyEditor from './draft/index';
 import MyEditor from './draft-plugin/index';
+import AutoCompleteEmail from './autoComplete';
 
 import './App.css';
 import test from './test.css';
@@ -21,7 +22,8 @@ function App() {
             {/* <StateUpdatePure /> */}
             {/* <MyEditor /> */}
             {/* {AutoComplete()} */}
-            <ShouldUpdate />
+            {/* <ShouldUpdate /> */}
+            <AutoCompleteEmail />
         </div>
     );
 }

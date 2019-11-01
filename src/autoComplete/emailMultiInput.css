@@ -1,0 +1,16 @@
+.multiInput{
+    display: flex;
+}
+.multiInput:focus{
+    outline: -webkit-focus-ring-color auto 1px;
+}
+.multiInput input{
+}
+.selectedItem {
+    color: #333;
+}
+
+.selectedItem:focus,
+.selectedItem:active {
+    outline: -webkit-focus-ring-color auto 1px;
+}

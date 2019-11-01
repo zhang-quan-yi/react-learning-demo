@@ -37,6 +37,7 @@ export default class ChildComp extends React.Component {
         return (
             <div>
                 <h2>{this.state.name}</h2>
+                <div>ChildComp {this.props.content}</div>
                 <div>
                     <SubComp content={this.state.content2} />
                 </div>
