@@ -1,19 +1,16 @@
 import React from 'react';
-import StateUpdate from './example/stateUpdate';
-import StateUpdatePure from './example/stateUpdatePure';
-import AutoComplete from './example/autoComplete';
-import ShouldUpdate from './example/shouldUpdate';
+// import StateUpdate from './example/stateUpdate';
+// import StateUpdatePure from './example/stateUpdatePure';
+// import AutoComplete from './example/autoComplete';
+// import ShouldUpdate from './example/shouldUpdate';
 // import MyEditor from './draft/index';
-import MyEditor from './draft-plugin/index';
-import AutoCompleteEmail from './autoComplete';
+// import MyEditor from './draft-plugin/index';
+// import AutoCompleteEmail from './autoComplete';
 
-import './App.css';
-import test from './test.css';
-
-import 'draft-js-mention-plugin/lib/plugin.css';
-
-
-console.log(test);
+// import './App.css';
+// import test from './test.css';
+// import 'draft-js-mention-plugin/lib/plugin.css';
+import './redux-enhance';
 
 function App() {
     return (
@@ -23,7 +20,7 @@ function App() {
             {/* <MyEditor /> */}
             {/* {AutoComplete()} */}
             {/* <ShouldUpdate /> */}
-            <AutoCompleteEmail />
+            {/* <AutoCompleteEmail /> */}
         </div>
     );
 }
