@@ -8,20 +8,40 @@ export default class EmailMultiInput extends React.Component {
         this.state = {
             options: props.options,
             open: false,
+            isFocus: false,
         };
         this.inputProps = {
             onKeyUp: this.onKeyUp,
             onClick: this.onClick,
+            onFocus: this.onFocus,
+            onBlur: this.onBlur,
         };
         this.preInput = '';
         this.currentInput = '';
     }
 
-    onClick = ()=>{
+    onClick = () => {
         this.setState({
             open: true
         });
-    }
+    };
+
+    onFocus = () => {
+        this.setState({
+            isFocus: true
+        });
+
+        const { onFocus } = this.props;
+        onFocus && onFocus();
+    };
+
+    onBlur = () => {
+        this.setState({
+            isFocus: false
+        });
+        const { onBlur } = this.props;
+        onBlur && onBlur();
+    };
 
     onKeyUp = (e) => {
         if (!this.preInput && e.keyCode === 8) {
@@ -37,15 +57,20 @@ export default class EmailMultiInput extends React.Component {
         } else if (e.keyCode === 186) {
             this.onChange(e.target.value.substr(0, e.target.value.length - 1), { action: 'select' });
         }
+        if (!this.state.open && e.target.value) {
+            this.setState({
+                open: true
+            });
+        }
         this.preInput = this.currentInput;
-        console.log('onKeyUp value code', e.target.value, e.keyCode);
-    }
+        // console.log('onKeyUp value code', e.target.value, e.keyCode);
+    };
 
     renderItem = (item, isHighlighted) => (
-        <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+        <div style={{ background: isHighlighted ? 'aliceblue' : 'white' }} className="auto-complete-opt-item">
             {`${item.name}<${item.value}>`}
         </div>
-    )
+    );
 
     onChange = (inputValue, opt) => {
         const selectValue = this.props.value.slice();
@@ -72,32 +97,32 @@ export default class EmailMultiInput extends React.Component {
         this.props.onChange && this.props.onChange(selectValue);
         this.props.onQueryChange && this.props.onQueryChange(newInputValue);
         console.log('onChange');
-    }
+    };
 
     onMenuVisibilityChange = (isOpen) => {
         console.log('onMenuVisibilityChange');
         this.setState({
             open: isOpen
         });
-    }
+    };
 
-    onSelectItemKeyUp = (e)=>{
-        if(e.keyCode === 8){
-            console.log('onSelectItemKeyUp',e.target.getAttribute('tabindex'));
+    onSelectItemKeyUp = (e) => {
+        if (e.keyCode === 8) {
+            console.log('onSelectItemKeyUp', e.target.getAttribute('tabindex'));
             this.disSelect(e.target.getAttribute('tabindex'));
         }
     };
 
-    disSelect = (index)=>{
+    disSelect = (index) => {
         const selectValue = this.props.value.slice();
         selectValue.splice(index, 1);
         console.log(selectValue);
         this.props.onChange && this.props.onChange(selectValue);
-    }
+    };
 
     render() {
         const { value, options } = this.props;
-        const { open } = this.state;
+        const { open, isFocus } = this.state;
         const self = this;
         let newOptions = options;
         let inputValue = '';
@@ -107,18 +132,15 @@ export default class EmailMultiInput extends React.Component {
             const lastItem = value[value.length - 1];
             inputValue = lastItem.value;
         }
-        if(selectValue.length || options.length){
+        if (selectValue.length || options.length) {
             const obj = {};
-            selectValue.forEach(item=>{
+            selectValue.forEach(item => {
                 obj[item.value] = item;
             });
-            newOptions = options.filter(item=>(!obj[item.value]));
+            newOptions = options.filter(item => (!obj[item.value]));
         }
-        const onKeyUp = ()=>{
-            console.log('onKeyUp');
-        };
         return (
-            <div className="multiInput">
+            <div className={`formItem multiInput ${isFocus?'focus':''}`}>
                 {
                     selectValue.map((item, index) => (
                         <div key={index} className='selectedItem' tabIndex={index} onKeyUp={self.onSelectItemKeyUp}>

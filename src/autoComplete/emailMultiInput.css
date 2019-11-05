@@ -1,13 +1,9 @@
-.multiInput{
-    display: flex;
+.multiInput > div:last-child {
+    width: 100%;
 }
-.multiInput:focus{
-    outline: -webkit-focus-ring-color auto 1px;
-}
-.multiInput input{
-}
+
 .selectedItem {
-    color: #333;
+    font-size: 15px;
 }
 
 .selectedItem:focus,

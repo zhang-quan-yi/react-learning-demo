@@ -2,9 +2,9 @@ import React from 'react';
 import SingleInput from './singleInput';
 import EmailMultiInput from './emailMultiInput';
 const options = [
-    { id: 1, name: 'quanyi', value: 'quanyi@126.com' },
-    { id: 2, name: 'langke', value: 'langke@126.com' },
-    { id: 3, name: 'hailei', value: 'hailei@126.com' },
+    { id: 1, name: 'quanyi', value: 'quanyi1@126.com' },
+    { id: 2, name: 'langke', value: 'langke2@126.com' },
+    { id: 3, name: 'hailei', value: 'hailei3@126.com' },
 ];
 
 export default class InputDemo extends React.Component {
@@ -19,7 +19,7 @@ export default class InputDemo extends React.Component {
     }
 
     renderItem = (item, isHighlighted) => (
-        <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+        <div style={{ background: isHighlighted ? 'aliceblue' : 'white' }} key={item.id} className="auto-complete-opt-item">
             {`${item.name}<${item.value}>`}
         </div>
     )
