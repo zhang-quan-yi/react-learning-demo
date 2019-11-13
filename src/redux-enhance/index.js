@@ -27,3 +27,6 @@ store.subscribe(onChange);
 
 // const fi = compose(d1, d2);
 // fi(1);
+store.dispatch((dispatch,getState)=>{
+    dispatch({ type: 'change-1' ,path: []});
+});
