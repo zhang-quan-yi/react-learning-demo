@@ -10,7 +10,7 @@ import AutoCompleteEmail from './autoComplete';
 // import './App.css';
 // import test from './test.css';
 // import 'draft-js-mention-plugin/lib/plugin.css';
-// import './redux-enhance';
+import './redux-enhance';
 
 function App() {
     return (
@@ -20,7 +20,7 @@ function App() {
             {/* <MyEditor /> */}
             {/* {AutoComplete()} */}
             {/* <ShouldUpdate /> */}
-            <AutoCompleteEmail />
+            {/* <AutoCompleteEmail /> */}
         </div>
     );
 }
