@@ -10,8 +10,8 @@ import React from 'react';
 // import './App.css';
 // import test from './test.css';
 // import 'draft-js-mention-plugin/lib/plugin.css';
-import './redux-enhance';
-
+// import './redux-enhance';
+import BlogExample from './blog/example';
 function App() {
     return (
         <div className="App">
@@ -21,6 +21,7 @@ function App() {
             {/* {AutoComplete()} */}
             {/* <ShouldUpdate /> */}
             {/* <AutoCompleteEmail /> */}
+            <BlogExample />
         </div>
     );
 }
