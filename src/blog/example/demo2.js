@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.css';
 
-class C1 extends React.Component {
+class C1 extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -22,7 +22,7 @@ class C1 extends React.Component {
     }
 }
 
-class C2 extends React.Component {
+class C2 extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -43,7 +43,7 @@ class C2 extends React.Component {
     }
 }
 
-class Root extends React.Component {
+class Root extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
