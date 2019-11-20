@@ -3,7 +3,7 @@ export default function m2() {
         if (action.path) {
             action.path.push('middleware 2');
         }
-        console.log('m2 in', action);
+        console.log('before after', JSON.stringify(action));
         return next(action);
     };
 }
