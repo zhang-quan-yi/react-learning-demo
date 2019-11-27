@@ -256,9 +256,87 @@ class C2 extends React.Component {
 
 如果对于 `setState` 的这种行为有所顾忌，那么该如何优化呢？
 
-## 通过 [PureComponent](https://reactjs.org/docs/react-api.html#reactpurecomponent) 或者 [shouldComponentUpdate](https://reactjs.org/docs/react-component.html#shouldcomponentupdate) 控制组件更新
+## 通过 [PureComponent](https://reactjs.org/docs/react-api.html#reactpurecomponent) 控制组件更新
 
 通过上节，我们知道，只要调用 `setState` 方法并传入参数，组件就会更新，触发一系列生命周期钩子。为了解决这个问题，可以使用 `PureComponent` 来优化性能。
 
-对上面的示例代码二，做以下修改：
+对上面的示例代码二，做以下修改，让所有组件都继承 `PureComponent`：
 
+![修改3_1](https://raw.githubusercontent.com/zhang-quan-yi/blogs/master/resource/react_state_update/p3_1.png)
+
+再次点击按钮 `update nothing` 和 `update name`，控制台输出分别为：
+
+![update nothing 结果](https://raw.githubusercontent.com/zhang-quan-yi/blogs/master/resource/react_state_update/p3_2.png)
+
+![update name 结果](https://raw.githubusercontent.com/zhang-quan-yi/blogs/master/resource/react_state_update/p3_3.png)
+
+可以发现，点击 `update nothing` 的时候，由于没有任何状态改变，所以所有组件都没有触发更新，控制台没有输出任何内容。
+
+点击 `update name` 的时候，组件 `Root` 内部的状态 `name` 更改了，而在 `C1` 内部，`props.father` 更改了，所以，组件 `Root` 和 `C1` 需要更新，而 `C2` 的 `state` 或者 `props` 都没有改变，所以没有触发更新。
+
+这样的结果已经让人很满意了。那么它是如何做到的呢？
+`React` 通过 `PureComponent` 组件，实现了一种简单有效的更新判断机制，称之为浅比较：比较 `state` 和 `props` 中的每一个属性，看它们是否相等。只有发现有不相等的属性，才更新组件。
+
+
+既然有浅比较，那么有深比较吗？有什么区别呢？
+假如我们有如下两个状态字段：
+
+```js
+this.state = {
+    a: {
+        b: 1,
+        c: 1
+    }
+};
+
+const newState = {
+    a: {
+        b: 1,
+        c: 1
+    }
+};
+
+this.setState(newState);
+
+```
+
+如果是浅比较的话，对比方式为：`state.a === newState.a` ，结果返回 `false`，组件就会以为状态有改变，触发更新。当然，我们知道 `state.a` 和 `newState.a` 是不同的对象，但是它们的内部结构是一样的，不需要更新 `UI`。
+
+那么，如果是深比较呢？
+
+```js
+(state.a.b === newState.a.b && state.a.c === newState.a.c) // true
+```
+
+深比较对比了对象的每一个字段，对比的结果返回 `true`，表示组件状态并没有更新。这样的结果符合我们的预期。
+
+那么如何将深比较应用到组件的更新控制中呢？
+
+## 通过 [Shouldcomponentupdate](https://zh-hans.reactjs.org/docs/react-component.html#shouldcomponentupdate) 生命周期钩子控制组件更新
+
+当 `props` 或 `state` 发生变化时，`shouldComponentUpdate` 会在渲染执行之前被调用。它的返回值将会影响组件是否执行更新。组件状态改变时，如果 `shouldComponentUpdate` 返回 `true` ，组件将会更新，返回 `false` 组件将不再更新。`shouldComponentUpdate` 默认返回 `true`
+
+
+
+## TODO
+
+在实际使用中，`PureComponent` 会带来一些预料之外的效果，通常是由于浅比较造成的。
+请看如下代码片段：
+
+```js
+const a = {
+    b: 1
+};
+
+this.state = {
+    a: a
+};
+
+a.b = 2;
+
+const newState = {
+    a: a
+};
+
+this.setState(newState);
+```

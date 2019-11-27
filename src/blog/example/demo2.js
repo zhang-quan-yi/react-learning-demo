@@ -1,14 +1,14 @@
 import React from 'react';
 import './index.css';
 
-class C1 extends React.PureComponent {
+class C1 extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             name: 'C1'
         };
     }
-    componentDidUpdate(){
+    componentDidUpdate() {
         console.log(`[${this.state.name}] did update`);
     }
 
@@ -22,14 +22,14 @@ class C1 extends React.PureComponent {
     }
 }
 
-class C2 extends React.PureComponent {
+class C2 extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             name: 'C2',
         };
     }
-    componentDidUpdate(){
+    componentDidUpdate() {
         console.log(`[${this.state.name}] did update`);
     }
 
@@ -43,16 +43,23 @@ class C2 extends React.PureComponent {
     }
 }
 
-class Root extends React.PureComponent {
+class Root extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: 'Root'
+            name: 'Root',
+            alias: 'r',
         };
         this.update = this.update.bind(this);
         this.updateNothing = this.updateNothing.bind(this);
     }
-    componentDidUpdate(){
+    shouldComponentUpdate(nextProps, nextState) {
+        return (
+            this.state.name !== nextState.name ||
+            this.state.alias !== nextState.alias
+        );
+    }
+    componentDidUpdate() {
         console.log(`[${this.state.name}] did update`);
     }
     updateNothing() {
