@@ -1,4 +1,4 @@
-# 浅析 React 组件状态更新
+# 浅析 React 组件的状态更新
 
 ## `state` 和 `props`
 
@@ -314,11 +314,23 @@ this.setState(newState);
 
 ## 通过 [Shouldcomponentupdate](https://zh-hans.reactjs.org/docs/react-component.html#shouldcomponentupdate) 生命周期钩子控制组件更新
 
-当 `props` 或 `state` 发生变化时，`shouldComponentUpdate` 会在渲染执行之前被调用。它的返回值将会影响组件是否执行更新。组件状态改变时，如果 `shouldComponentUpdate` 返回 `true` ，组件将会更新，返回 `false` 组件将不再更新。`shouldComponentUpdate` 默认返回 `true`
+当 `props` 或 `state` 发生变化时，`shouldComponentUpdate` 会在渲染执行之前被调用。它的返回值将会影响组件是否执行更新。组件状态改变时，如果 `shouldComponentUpdate` 返回 `true` ，组件将会更新，返回 `false` 组件将不再更新。继承 `React.Component` 组件的 `shouldComponentUpdate` 默认返回 `true`
 
+![修改 2](https://raw.githubusercontent.com/zhang-quan-yi/blogs/master/resource/react_state_update/p4_1.png)
 
+我们将示例代码做了修改，所有组件都改为继承 `React.Component`，同时为 `Root` 组件增加了 `shouldComponentUpdate` 生命周期钩子。在 `shouldComponentUpdate` 中，我们比较了 `state.name` 和  `state.alias` 字段的新值和旧值。
 
-## TODO
+作出更改后，点击按钮 `update nothing` 和 `update name`，控制台输出分别为：
+
+![update nothing 结果](https://raw.githubusercontent.com/zhang-quan-yi/blogs/master/resource/react_state_update/p4_2.png)
+
+![update name 结果](https://raw.githubusercontent.com/zhang-quan-yi/blogs/master/resource/react_state_update/p4_3.png)
+
+可以看到，点击按钮 `update nothing` 后，没有组件更新，因为没有状态改变， `shouldComponentUpdate` 函数返回的是 `false`。点击按钮 `update name`，`shouldComponentUpdate` 函数因为 `name` 发生了改变，返回值为 `true`，所以组件更新了。
+
+有了 `shouldComponentUpdate`，可以完全控制组件如何根据状态的改变而更新。但是，大部分情况下，应该遵循默认行为。当组件出现明显的性能瓶颈时，`shouldComponentUpdate` 可以作为性能优化的一种方式。
+
+## `PureComponent` 的潜在问题
 
 在实际使用中，`PureComponent` 会带来一些预料之外的效果，通常是由于浅比较造成的。
 请看如下代码片段：
@@ -339,4 +351,38 @@ const newState = {
 };
 
 this.setState(newState);
+
 ```
+
+示例代码中，在不经意间，直接修改了 `a` 对象，并没有在新的对象上处理修改，所以等式 `state.a === newState.a` 的结果是 `true`，在 `PureComponent` 中，也是这样的浅比较，它会误以为组件状态没有改变，不更新 `UI`。
+
+请看正确的示例：
+
+```js
+const a = {
+    b: 1
+};
+
+this.state = {
+    a: a
+};
+
+// 创建一个新的 a 对象
+const new_a = {
+    b: a.b + 1
+}
+
+const newState = {
+    a: new_a
+};
+
+this.setState(newState);
+
+```
+
+也就是说，不要在原来的对象上应用修改，正确的做法是，创建新的对象，在新的对象上面应用需要的改动。
+
+
+## `shouldComponentUpdate` 潜在的性能问题
+
+`React` 官方不建议在 `shouldComponentUpdate` 中进行深层比较或使用 JSON.stringify()。`shouldComponentUpdate` 函数计算量过大非常影响效率，且会损害性能。因为，任何状态的改变，都会触发`shouldComponentUpdate` 的执行，它会被高频率地执行。
